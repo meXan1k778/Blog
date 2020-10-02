@@ -1,31 +1,45 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-
+/* eslint-disable react/react-in-jsx-scope */
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { Link } from 'react-router-dom';
+import StoreApi from '../../StoreTitles/Storeservice';
 
-import './title.scss';
+const streApi = new StoreApi();
 
-const Title = ({ data }) => {
+const Article = ({ match }) => {
+  const [data, setData] = useState({
+    author: { username: '', image: '' },
+    body: '',
+    tagList: [],
+    title: '',
+    updatedAt: new Date(),
+    isLoaded: false,
+  });
   const {
     title,
     body,
     tagList,
+    isLoaded,
     updatedAt,
-    slug,
     author: { username, image },
   } = data;
+
+  useEffect(() => {
+    streApi.openArticle(match.params.slug).then((res) => setData({ ...res.article, isLoaded: true }));
+  }, []);
+
   const tags = tagList.map((item) => (
     <span className="content__tag" key={item[0]}>
       {item}
     </span>
   ));
+
   const date = format(new Date(updatedAt), 'MMMM dd, yyyy');
 
-  return (
+  return isLoaded ? (
     <div className="content__block">
       <div className="content__description">
-        <Link to={`/article/${slug}`}>{title}</Link>
+        <h3>{title}</h3>
         <div>{tags}</div>
         <p>{body}</p>
       </div>
@@ -35,7 +49,9 @@ const Title = ({ data }) => {
         <span className="content__date">{date}</span>
       </div>
     </div>
+  ) : (
+    <div>loading page...</div>
   );
 };
 
-export default Title;
+export default Article;

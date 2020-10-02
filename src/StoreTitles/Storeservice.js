@@ -8,4 +8,14 @@ export default class StoreApi {
 
     return res.json();
   }
+
+  async openArticle(slug) {
+    const res = await fetch(`https://conduit.productionready.io/api/articles/${slug}`);
+
+    if (!res.ok) {
+      throw new Error(`Could not fetch!!! recived status: ${res.status}`);
+    }
+
+    return res.json();
+  }
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import Title from '../Title/Title';
-import Header from '../Header/Header';
 
 import 'antd/dist/antd.css';
 
@@ -11,24 +10,31 @@ const TitleList = () => {
   const titlesApi = new StoreApi();
 
   const [currentPage, setPage] = useState(1);
+  const [isLoaded, setLoader] = useState(false);
 
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    titlesApi.getArticles().then((res) => setArticles(res.articles));
+    titlesApi
+      .getArticles()
+      .then((res) => setArticles(res.articles))
+      .then(() => setLoader(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changePage = (e) => {
-    titlesApi.getArticles(e).then((res) => setArticles(res.articles));
+    setLoader(false);
+    titlesApi
+      .getArticles(e)
+      .then((res) => setArticles(res.articles))
+      .then(() => setLoader(true));
     setPage(e);
   };
 
-  const elements = articles.map((item) => <Title data={item} key={item.slug} />);
+  const elements = isLoaded ? articles.map((item) => <Title data={item} key={item.slug} />) : 'loading...';
 
   return (
     <div>
-      <Header />
       <div className="content">{elements}</div>
 
       <Pagination
