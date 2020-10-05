@@ -16,7 +16,7 @@ const Title = ({ data }) => {
     author: { username, image },
   } = data;
   const tags = tagList.map((item) => (
-    <span className="content__tag" key={item[0]}>
+    <span className="content__tag" key={item}>
       {item}
     </span>
   ));
@@ -30,9 +30,12 @@ const Title = ({ data }) => {
         <p>{body}</p>
       </div>
       <div className="content__owner">
+        <div>
+          <span className="content__name">{username}</span>
+          <span className="content__date">{date}</span>
+        </div>
+
         <img src={image} alt="avatar" />
-        <span className="content__name">{username}</span>
-        <span className="content__date">{date}</span>
       </div>
     </div>
   );

@@ -39,6 +39,8 @@
 }
 
 .content__owner {
+  display: flex;
+  align-items: flex-start;
   width: 140px;
   span {
     display: inline-block;
@@ -55,6 +57,6 @@
   }
   img {
     width: 40px;
-    float: right;
+    border-radius: 50%;
   }
 }

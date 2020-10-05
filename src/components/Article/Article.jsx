@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/react-in-jsx-scope */
+
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import StoreApi from '../../StoreTitles/Storeservice';
@@ -26,6 +26,7 @@ const Article = ({ match }) => {
 
   useEffect(() => {
     streApi.openArticle(match.params.slug).then((res) => setData({ ...res.article, isLoaded: true }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tags = tagList.map((item) => (
@@ -44,9 +45,12 @@ const Article = ({ match }) => {
         <p>{body}</p>
       </div>
       <div className="content__owner">
+        <div>
+          <span className="content__name">{username}</span>
+          <span className="content__date">{date}</span>
+        </div>
+
         <img src={image} alt="avatar" />
-        <span className="content__name">{username}</span>
-        <span className="content__date">{date}</span>
       </div>
     </div>
   ) : (

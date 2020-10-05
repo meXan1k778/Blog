@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+p {
+  margin-top: -14px;
+  color: red;
+  font-size: 12px;
+}
+
+.content__reg-form {
+  position: relative;
+  height: 100%;
+  margin: 50px auto 10px;
+  max-width: 384px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 32px;
+  h3,
+  .form-text {
+    text-align: center;
+    margin: 0;
+    color: black;
+  }
+}
+
+input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0 12px 0;
+  display: inline-block;
+  border: none;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+}
+
+.line::before {
+  content: '';
+  width: 82%;
+  height: 3px;
+  position: absolute;
+  top: 405px;
+  left: 35px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+input[type='checkbox'] {
+  margin-top: 28px;
+  line-height: 10px;
+  width: 20px;
+}
+
+.regform-btn {
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #1890ff;
+  border: none;
+}
