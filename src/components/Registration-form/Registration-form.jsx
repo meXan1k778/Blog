@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
 import React from 'react';
 
 import { useForm } from 'react-hook-form';
@@ -28,7 +30,7 @@ const RegistrationForm = ({ sendRegForm, error, userRegistered, changeRegStatus 
   const emailError = error.email ? <p>{`Email ${error.email}`}</p> : null;
 
   if (userRegistered) {
-    const resetStatus = () => changeRegStatus();
+    changeRegStatus();
     return <Redirect to="/" />;
   }
 

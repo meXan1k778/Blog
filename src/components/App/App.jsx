@@ -9,7 +9,6 @@ import RegistrationForm from '../Registration-form/Registration-form';
 import LogInForm from '../Registration-form/LogIn-form';
 import Profile from '../Profile/Profile';
 import NewArticle from '../New-article/New-article';
-import Edit from '../Edit/Edit';
 import PrivateRoute from '../../routes/PrivateRoute';
 
 import './app.scss';
@@ -27,7 +26,7 @@ const App = () => {
             <PrivateRoute path="/profile" component={Profile} exact />
             <Route path="/sign-up" component={RegistrationForm} exact />
             <Route path="/article/:slug" component={Article} exact />
-            <PrivateRoute path="/article/:slug/edit" component={Edit} />
+            <PrivateRoute path="/article/:slug/edit" component={NewArticle} />
             <Redirect to="/" />
           </Switch>
         </Router>

@@ -9,12 +9,14 @@ import {
   FETCH_ARTICLES_LIST,
   FETCH_UPDATE_ARTICLE,
   FETCH_DELETE_ARTICLE,
+  FULL_ARTICLE,
   LIKE,
   changeRegStatus,
   putLogInData,
   putErrorData,
   putArticles,
   saveLikedData,
+  putFullArticle,
 } from '../actions/actions';
 import {
   fetchRegistration,
@@ -27,7 +29,8 @@ import {
   fetchDeleteArticle,
   fetchLike,
   fetchDislike,
-} from '../components/Api/api';
+  fetchOpenArticle,
+} from '../Api-service/Api-service';
 
 export function* workerFetchArticlesList(action) {
   const data = yield call(fetchArticlesList, action.payload);
@@ -62,6 +65,13 @@ export function* workerFetchCookie() {
   } else console.log('there is no cookie');
 }
 
+export function* workerFetchFullArticle(action) {
+  console.log(action.payload, 'saga');
+  const data = yield call(fetchOpenArticle, action.payload);
+  console.log(data.article);
+  yield put(putFullArticle(data.article));
+}
+
 export function* workerFetchProfile(action) {
   try {
     const data = yield call(fetchEditProfile, action.payload);
@@ -84,8 +94,7 @@ export function* workerFetchUpdateArticle(action) {
 }
 
 export function* workerFetchDeleteArticle(action) {
-  const data = yield call(fetchDeleteArticle, action.payload);
-  console.log(data);
+  yield call(fetchDeleteArticle, action.payload);
 }
 
 export function* workerFetchLike(action) {
@@ -93,7 +102,7 @@ export function* workerFetchLike(action) {
 
   if (data.article.favoritesCount === action.payload.likeCount) {
     const newData = yield call(fetchDislike, action.payload.slug);
-    console.log(newData, 'newData');
+
     yield put(saveLikedData(newData));
   } else yield put(saveLikedData(data));
 }
@@ -103,6 +112,7 @@ export function* whatchFetchReg() {
   yield takeEvery(FETCH_REGISTRATION, workerFetchReg);
   yield takeEvery(FETCH_LOGIN, workerFetchLogIn);
   yield takeEvery(FETCH_COOKIE, workerFetchCookie);
+  yield takeEvery(FULL_ARTICLE, workerFetchFullArticle);
   yield takeEvery(FETCH_PROFILE, workerFetchProfile);
   yield takeEvery(FETCH_ARTICLE, workerFetchArticle);
   yield takeEvery(FETCH_UPDATE_ARTICLE, workerFetchUpdateArticle);

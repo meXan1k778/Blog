@@ -20,6 +20,16 @@ const fetchArticlesList = async (page = 1) => {
   return res.json();
 };
 
+const fetchOpenArticle = async (slug) => {
+  const res = await fetch(`https://conduit.productionready.io/api/articles/${slug}`);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch!!! recived status: ${res.status}`);
+  }
+
+  return res.json();
+};
+
 const fetchLogIn = async (data) => {
   const request = await fetch(`https://conduit.productionready.io/api/users/login`, {
     method: 'POST',
@@ -124,6 +134,7 @@ const fetchDislike = async (slug) => {
 export {
   fetchRegistration,
   fetchLogIn,
+  fetchOpenArticle,
   fetchCookie,
   fetchEditProfile,
   fetchNewArticle,

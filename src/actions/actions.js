@@ -1,6 +1,7 @@
 export const FETCH_REGISTRATION = 'FETCH_REGISTRATION';
 export const FETCH_LOGIN = 'FETCH_LOGIN';
 export const FETCH_COOKIE = 'FETCH_COOKIE';
+export const FULL_ARTICLE = 'FULL_ARTICLE';
 export const FETCH_LOGIN_FAILED = 'FETCH_LOGIN_FAILED';
 export const FETCH_PROFILE = 'FETCH_PROFILE';
 export const FETCH_ARTICLE = 'FETCH_ARTICLE';
@@ -39,6 +40,20 @@ const sendLogInForm = (data) => {
   return {
     type: FETCH_LOGIN,
     payload: data,
+  };
+};
+
+const putFullArticle = (article) => {
+  return {
+    type: 'PUT_FULL_ARTICLE',
+    payload: article,
+  };
+};
+
+const getFullArticle = (slug) => {
+  return {
+    type: FULL_ARTICLE,
+    payload: slug,
   };
 };
 
@@ -128,6 +143,7 @@ export {
   getArticles,
   putArticles,
   sendRegForm,
+  getFullArticle,
   changeRegStatus,
   putLogInData,
   sendLogInForm,
@@ -142,4 +158,5 @@ export {
   toggleFetch,
   toggleLike,
   saveLikedData,
+  putFullArticle,
 };

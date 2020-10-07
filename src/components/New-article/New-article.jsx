@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
+import React, { useState, useRef } from 'react';
 
 import { Redirect, withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -10,7 +12,7 @@ import { createArticle, updateArticle } from '../../actions/actions';
 import './new-article.scss';
 
 const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
-  const currentArticle = articles.length !== 0 ? articles.filter((item) => item.slug === match.params.slug)[0] : {};
+  const currentArticle = articles.length !== 0 ? articles.filter((item) => item.slug === match.params.slug)[0] : [];
 
   const title = currentArticle ? currentArticle.title : null;
   const description = currentArticle ? currentArticle.description : null;
@@ -19,6 +21,7 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
 
   const tagId = useRef(0);
 
+  // eslint-disable-next-line no-use-before-define
   const currentTags = tagList ? tagList.map((item) => createItem(item)) : null;
 
   const [isDone, setDone] = useState(false);

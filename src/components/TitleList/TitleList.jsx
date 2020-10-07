@@ -1,9 +1,13 @@
+/* eslint-disable no-shadow */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
+
 import Title from '../Title/Title';
-import { getArticles, toggleLike } from '../../actions/actions';
 import Spinner from '../Spinner/Spinner';
+
+import { getArticles, toggleLike } from '../../actions/actions';
 
 import 'antd/dist/antd.css';
 
@@ -35,7 +39,6 @@ const TitleList = ({ getArticles, articles, isLoading, toggleLike, loggedUser })
   return (
     <div>
       <div className="content">{elements}</div>
-
       <Pagination
         current={currentPage}
         size="small"

@@ -2,6 +2,13 @@ const initialState = {
   userRegistered: false,
   loggedUser: {},
   articles: [],
+  currentArticle: {
+    author: { username: '', image: '' },
+    body: '',
+    tagList: [],
+    title: '',
+    updatedAt: new Date(),
+  },
   isLogged: false,
   isLoading: false,
   isLoginValid: false,
@@ -23,7 +30,8 @@ const Reducers = (state = initialState, action) => {
     action.type === 'FETCH_ARTICLE' ||
     action.type === 'FETCH_ARTICLES_LIST' ||
     action.type === 'FETCH_UPDATE_ARTICLE' ||
-    action.type === 'FETCH_DELETE_ARTICLE'
+    action.type === 'FETCH_DELETE_ARTICLE' ||
+    action.type === 'FULL_ARTICLE'
   ) {
     return { ...state, isLoading: true };
   }
@@ -32,6 +40,9 @@ const Reducers = (state = initialState, action) => {
   }
   if (action.type === 'FETCH_LOGIN_FAILED') {
     return { ...state, error: action.error, isLoginValid: true, isLoading: false };
+  }
+  if (action.type === 'PUT_FULL_ARTICLE') {
+    return { ...state, currentArticle: action.payload, isLoading: false };
   }
   if (action.type === 'LOG_OUT') {
     return { ...state, loggedUser: {}, isLogged: false };

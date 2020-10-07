@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from 'react';
@@ -5,38 +6,29 @@ import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import StoreApi from '../../StoreTitles/Storeservice';
 
-import { deleteArticle } from '../../actions/actions';
-import Spinner from '../Spinner/Spinner';
+import ArticleRender from './ArticleRender';
 import Modal from './Modal';
+import Spinner from '../Spinner/Spinner';
+
+import { deleteArticle, getFullArticle } from '../../actions/actions';
+
 import './article.scss';
 
-const streApi = new StoreApi();
-
-const Article = ({ match, loggedUser, deleteArticle }) => {
+const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArticle, isLoading }) => {
   const [isDeleted, setDelete] = useState(false);
   const [statusModal, setModal] = useState(false);
-  const [data, setData] = useState({
-    author: { username: '', image: '' },
-    body: '',
-    tagList: [],
-    title: '',
-    updatedAt: new Date(),
-    isLoaded: false,
-  });
+
   const {
-    title,
-    body,
     tagList,
-    isLoaded,
     slug,
     updatedAt,
-    author: { username, image },
-  } = data;
+    author: { username },
+  } = currentArticle;
 
   useEffect(() => {
-    streApi.openArticle(match.params.slug).then((res) => setData({ ...res.article, isLoaded: true }));
+    getFullArticle(match.params.slug);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -46,7 +38,7 @@ const Article = ({ match, loggedUser, deleteArticle }) => {
     </span>
   ));
 
-  const actionArticle = () => {
+  const actionArticleDel = () => {
     deleteArticle(slug);
     setDelete(true);
   };
@@ -68,31 +60,14 @@ const Article = ({ match, loggedUser, deleteArticle }) => {
     </>
   );
 
-  const modal = !statusModal || <Modal toggleModal={toggleModal} actionArticle={actionArticle} />;
+  const modal = !statusModal || <Modal toggleModal={toggleModal} actionArticle={actionArticleDel} />;
 
   if (isDeleted) {
     return <Redirect to="/" />;
   }
 
-  return isLoaded ? (
-    <div className="content__block article">
-      <div className="content__description">
-        <h3>{title}</h3>
-        <div>{tags}</div>
-        <p>{body}</p>
-      </div>
-      <div className="content__bar">
-        <div className="content__owner">
-          <div>
-            <span className="content__name">{username}</span>
-            <span className="content__date">{date}</span>
-          </div>
-          <img src={image} alt="avatar" />
-          {modal}
-        </div>
-        {userBtn}
-      </div>
-    </div>
+  return !isLoading ? (
+    <ArticleRender data={currentArticle} calculatedData={[date, tags, userBtn, modal]} />
   ) : (
     <Spinner />
   );
@@ -101,11 +76,14 @@ const Article = ({ match, loggedUser, deleteArticle }) => {
 const mapStateToProps = (state) => {
   return {
     loggedUser: state.loggedUser,
+    currentArticle: state.currentArticle,
+    isLoading: state.isLoading,
   };
 };
 
 const mapDispatchToProps = {
   deleteArticle,
+  getFullArticle,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

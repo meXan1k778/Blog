@@ -1,8 +1,12 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import HeaderUnlogged from './Header-unlogged';
 import HeaderLogged from './Header-logged';
+
 import { getDataFromCookie } from '../../actions/actions';
 
 import './header.scss';
