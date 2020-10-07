@@ -1,15 +1,22 @@
 /* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from 'react';
+
 import { format } from 'date-fns';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StoreApi from '../../StoreTitles/Storeservice';
+
+import { deleteArticle } from '../../actions/actions';
+import Spinner from '../Spinner/Spinner';
+import Modal from './Modal';
 import './article.scss';
 
 const streApi = new StoreApi();
 
-const Article = ({ match, loggedUser }) => {
+const Article = ({ match, loggedUser, deleteArticle }) => {
+  const [isDeleted, setDelete] = useState(false);
+  const [statusModal, setModal] = useState(false);
   const [data, setData] = useState({
     author: { username: '', image: '' },
     body: '',
@@ -39,6 +46,15 @@ const Article = ({ match, loggedUser }) => {
     </span>
   ));
 
+  const actionArticle = () => {
+    deleteArticle(slug);
+    setDelete(true);
+  };
+
+  const toggleModal = (value) => {
+    setModal(value);
+  };
+
   const date = format(new Date(updatedAt), 'MMMM dd, yyyy');
 
   const userBtn = username !== loggedUser.username || (
@@ -46,11 +62,17 @@ const Article = ({ match, loggedUser }) => {
       <Link to={`/article/${slug}/edit`} className="content__btn content__btn-edit ">
         Edit
       </Link>
-      <button type="button" className="content__btn content__btn-remove">
+      <button onClick={() => toggleModal(true)} type="button" className="content__btn content__btn-remove">
         Delete
       </button>
     </>
   );
+
+  const modal = !statusModal || <Modal toggleModal={toggleModal} actionArticle={actionArticle} />;
+
+  if (isDeleted) {
+    return <Redirect to="/" />;
+  }
 
   return isLoaded ? (
     <div className="content__block article">
@@ -66,12 +88,13 @@ const Article = ({ match, loggedUser }) => {
             <span className="content__date">{date}</span>
           </div>
           <img src={image} alt="avatar" />
+          {modal}
         </div>
         {userBtn}
       </div>
     </div>
   ) : (
-    <div>loading page...</div>
+    <Spinner />
   );
 };
 
@@ -81,4 +104,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Article);
+const mapDispatchToProps = {
+  deleteArticle,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

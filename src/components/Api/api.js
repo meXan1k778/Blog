@@ -85,6 +85,42 @@ const fetchUpdateArticle = async (data) => {
   return request.json();
 };
 
+const fetchDeleteArticle = async (slug) => {
+  const request = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Token ${document.cookie}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return request.json();
+};
+
+const fetchLike = async (slug) => {
+  const request = await fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Token ${document.cookie}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return request.json();
+};
+
+const fetchDislike = async (slug) => {
+  const request = await fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Token ${document.cookie}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return request.json();
+};
+
 export {
   fetchRegistration,
   fetchLogIn,
@@ -93,4 +129,7 @@ export {
   fetchNewArticle,
   fetchArticlesList,
   fetchUpdateArticle,
+  fetchDeleteArticle,
+  fetchLike,
+  fetchDislike,
 };

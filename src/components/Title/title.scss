@@ -30,15 +30,18 @@
   }
 
   .content__tag {
+    display: inline-block;
     font-size: 12px;
     border: 1px solid black;
     border-radius: 2px;
     padding: 5px;
     margin-right: 6px;
+    margin-top: 3px;
   }
 }
 
 .content__owner {
+  position: relative;
   display: flex;
   align-items: flex-start;
   width: 140px;
@@ -59,4 +62,22 @@
     width: 40px;
     border-radius: 50%;
   }
+}
+
+.like {
+  img {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+}
+
+.content__title {
+  margin-bottom: 5px;
 }

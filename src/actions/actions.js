@@ -6,6 +6,8 @@ export const FETCH_PROFILE = 'FETCH_PROFILE';
 export const FETCH_ARTICLE = 'FETCH_ARTICLE';
 export const FETCH_ARTICLES_LIST = 'FETCH_ARTICLES_LIST';
 export const FETCH_UPDATE_ARTICLE = 'FETCH_UPDATE_ARTICLE';
+export const FETCH_DELETE_ARTICLE = 'FETCH_DELETE_ARTICLE';
+export const LIKE = 'LIKE';
 
 const sendRegForm = (data) => {
   return {
@@ -95,6 +97,33 @@ const updateArticle = (data) => {
   };
 };
 
+const deleteArticle = (slug) => {
+  return {
+    type: FETCH_DELETE_ARTICLE,
+    payload: slug,
+  };
+};
+
+const toggleFetch = () => {
+  return {
+    type: 'FETCH_SUCCES',
+  };
+};
+
+const toggleLike = (slug) => {
+  return {
+    type: LIKE,
+    payload: slug,
+  };
+};
+
+const saveLikedData = (article) => {
+  return {
+    type: 'SAVE_LIKE_DATA',
+    payload: article,
+  };
+};
+
 export {
   getArticles,
   putArticles,
@@ -109,4 +138,8 @@ export {
   editProfile,
   createArticle,
   updateArticle,
+  deleteArticle,
+  toggleFetch,
+  toggleLike,
+  saveLikedData,
 };

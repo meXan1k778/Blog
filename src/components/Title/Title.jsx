@@ -3,16 +3,18 @@ import React from 'react';
 
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import icon from '../../img/Vector.png';
 
 import './title.scss';
 
-const Title = ({ data }) => {
+const Title = ({ data, likeIt }) => {
   const {
     title,
     body,
     tagList,
     updatedAt,
     slug,
+    favoritesCount,
     author: { username, image },
   } = data;
   const tags = tagList.map((item) => (
@@ -25,7 +27,13 @@ const Title = ({ data }) => {
   return (
     <div className="content__block">
       <div className="content__description">
-        <Link to={`/article/${slug}`}>{title}</Link>
+        <Link className="content__title" to={`/article/${slug}`}>
+          {title}
+        </Link>
+        <button className="like" type="button" onClick={() => likeIt(slug)}>
+          <img src={icon} alt="qwe" />
+          {favoritesCount}
+        </button>
         <div>{tags}</div>
         <p>{body}</p>
       </div>

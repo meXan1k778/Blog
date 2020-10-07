@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { editProfile, setVallidStatus } from '../../actions/actions';
+import { Redirect } from 'react-router-dom';
+import { editProfile, setVallidStatus, changeRegStatus } from '../../actions/actions';
 
 import './form.scss';
 
-const Profile = ({ editProfile, error, setVallidStatus }) => {
+const Profile = ({ editProfile, error, setVallidStatus, userRegistered, changeRegStatus }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -18,6 +19,11 @@ const Profile = ({ editProfile, error, setVallidStatus }) => {
 
   const userError = error.username ? <p>{` Username ${error.username}`}</p> : null;
   const emailError = error.email ? <p>{`Email ${error.email}`}</p> : null;
+
+  if (userRegistered) {
+    changeRegStatus();
+    return <Redirect to="/" />;
+  }
 
   return (
     <form action="" method="POST" onSubmit={handleSubmit(onSubmit)}>
@@ -71,12 +77,15 @@ const Profile = ({ editProfile, error, setVallidStatus }) => {
 const mapStateToProps = (state) => {
   return {
     error: state.error,
+    fetchSucces: state.fetchSucces,
+    userRegistered: state.userRegistered,
   };
 };
 
 const mapDispatchToProps = {
   editProfile,
   setVallidStatus,
+  changeRegStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

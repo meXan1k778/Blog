@@ -8,10 +8,13 @@ import {
   FETCH_ARTICLE,
   FETCH_ARTICLES_LIST,
   FETCH_UPDATE_ARTICLE,
+  FETCH_DELETE_ARTICLE,
+  LIKE,
   changeRegStatus,
   putLogInData,
   putErrorData,
   putArticles,
+  saveLikedData,
 } from '../actions/actions';
 import {
   fetchRegistration,
@@ -21,11 +24,13 @@ import {
   fetchNewArticle,
   fetchArticlesList,
   fetchUpdateArticle,
+  fetchDeleteArticle,
+  fetchLike,
+  fetchDislike,
 } from '../components/Api/api';
 
 export function* workerFetchArticlesList(action) {
   const data = yield call(fetchArticlesList, action.payload);
-
   yield put(putArticles(data.articles));
 }
 
@@ -63,6 +68,7 @@ export function* workerFetchProfile(action) {
 
     if (data.user) {
       yield put(putLogInData({ ...data.user }));
+      yield put(changeRegStatus());
     } else yield put(putErrorData(data.errors));
   } catch (error) {
     alert('Something went wrong, try again');
@@ -77,6 +83,21 @@ export function* workerFetchUpdateArticle(action) {
   yield call(fetchUpdateArticle, action.payload);
 }
 
+export function* workerFetchDeleteArticle(action) {
+  const data = yield call(fetchDeleteArticle, action.payload);
+  console.log(data);
+}
+
+export function* workerFetchLike(action) {
+  const data = yield call(fetchLike, action.payload.slug);
+
+  if (data.article.favoritesCount === action.payload.likeCount) {
+    const newData = yield call(fetchDislike, action.payload.slug);
+    console.log(newData, 'newData');
+    yield put(saveLikedData(newData));
+  } else yield put(saveLikedData(data));
+}
+
 export function* whatchFetchReg() {
   yield takeEvery(FETCH_ARTICLES_LIST, workerFetchArticlesList);
   yield takeEvery(FETCH_REGISTRATION, workerFetchReg);
@@ -85,4 +106,6 @@ export function* whatchFetchReg() {
   yield takeEvery(FETCH_PROFILE, workerFetchProfile);
   yield takeEvery(FETCH_ARTICLE, workerFetchArticle);
   yield takeEvery(FETCH_UPDATE_ARTICLE, workerFetchUpdateArticle);
+  yield takeEvery(FETCH_DELETE_ARTICLE, workerFetchDeleteArticle);
+  yield takeEvery(LIKE, workerFetchLike);
 }

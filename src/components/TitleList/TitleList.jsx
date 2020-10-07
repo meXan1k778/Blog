@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
 import Title from '../Title/Title';
-import { getArticles } from '../../actions/actions';
+import { getArticles, toggleLike } from '../../actions/actions';
+import Spinner from '../Spinner/Spinner';
 
 import 'antd/dist/antd.css';
 
-const TitleList = ({ getArticles, articles, isLoading }) => {
+const TitleList = ({ getArticles, articles, isLoading, toggleLike, loggedUser }) => {
   const [currentPage, setPage] = useState(1);
 
   useEffect(() => {
@@ -19,7 +20,17 @@ const TitleList = ({ getArticles, articles, isLoading }) => {
     setPage(e);
   };
 
-  const elements = !isLoading ? articles.map((item) => <Title data={item} key={item.slug} />) : 'loading...';
+  const likeIt = (slug) => {
+    if (!loggedUser.username) return;
+    const likeCount = articles.filter((item) => (item.slug === slug ? item : null))[0].favoritesCount;
+    toggleLike({ slug, likeCount });
+  };
+
+  const elements = !isLoading ? (
+    articles.map((item) => <Title data={item} key={item.slug} likeIt={likeIt} />)
+  ) : (
+    <Spinner />
+  );
 
   return (
     <div>
@@ -41,11 +52,13 @@ const mapStateToProps = (state) => {
   return {
     articles: state.articles,
     isLoading: state.isLoading,
+    loggedUser: state.loggedUser,
   };
 };
 
 const mapDispatchToProps = {
   getArticles,
+  toggleLike,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TitleList);

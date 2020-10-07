@@ -2,8 +2,12 @@
   min-height: 550px;
   margin-bottom: 40px;
 }
+button {
+  padding: 0;
+}
 
 .content__btn {
+  cursor: pointer;
   background-color: #ffffff;
   outline: none;
   padding: 5px 20px;
@@ -14,10 +18,11 @@
 .content__btn-edit {
   border: 1px solid #52c41a;
   color: #52c41a;
+  padding: 7px 20px;
   &:active {
     border: 3px solid chartreuse;
     opacity: 0.8;
-    padding: 3px 18px;
+    padding: 5px 18px;
   }
 }
 
@@ -28,5 +33,56 @@
     border: 3px solid #ff0015;
     opacity: 0.8;
     padding: 3px 18px;
+  }
+}
+
+.modal-window {
+  .modal__warn-msg {
+    position: relative;
+    margin: 0;
+    padding: 10px 0 0 25px;
+    color: black;
+    font-size: 14px;
+    &::before {
+      position: absolute;
+      content: '!';
+      width: 15px;
+      height: 15px;
+      background-color: orange;
+      border-radius: 50%;
+      top: 15px;
+      left: 6px;
+      text-align: center;
+      line-height: 15px;
+    }
+  }
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid grey;
+  box-shadow: 0 1px 3px 1px;
+  border-radius: 8px;
+  width: 260px;
+  height: 100px;
+  position: absolute;
+  top: 57px;
+  left: -185px;
+}
+
+.modal__btns {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  button {
+    border: 1px solid grey;
+    &:active {
+      padding: 3px 18px;
+      border: 3px solid grey;
+      opacity: 0.8;
+    }
+  }
+  .content__btn-confirm {
+    color: #ffffff;
+    background-color: #1890ff;
   }
 }

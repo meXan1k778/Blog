@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import { Redirect, withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+
 import Todo from './Todo';
 import { createArticle, updateArticle } from '../../actions/actions';
 
@@ -20,6 +21,7 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
 
   const currentTags = tagList ? tagList.map((item) => createItem(item)) : null;
 
+  const [isDone, setDone] = useState(false);
   const { register, handleSubmit, errors } = useForm();
   const [mainInput, setInput] = useState('');
   const [todo, setTodo] = useState(currentTags || []);
@@ -52,7 +54,12 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
       updateArticle({ ...data, tagList, slug: match.params.slug });
     }
     createArticle({ ...data, tagList });
+    return setDone(true);
   };
+
+  if (isDone) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <form action="" method="POST" onSubmit={handleSubmit(onSubmit)}>

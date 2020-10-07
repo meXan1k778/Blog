@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   isLoginValid: false,
   error: {},
+  fetchSucces: false,
 };
 
 const Reducers = (state = initialState, action) => {
@@ -21,7 +22,8 @@ const Reducers = (state = initialState, action) => {
     action.type === 'FETCH_EDIT' ||
     action.type === 'FETCH_ARTICLE' ||
     action.type === 'FETCH_ARTICLES_LIST' ||
-    action.type === 'FETCH_UPDATE_ARTICLE'
+    action.type === 'FETCH_UPDATE_ARTICLE' ||
+    action.type === 'FETCH_DELETE_ARTICLE'
   ) {
     return { ...state, isLoading: true };
   }
@@ -39,6 +41,15 @@ const Reducers = (state = initialState, action) => {
   }
   if (action.type === 'REQUEST_SUCCES') {
     return { ...state, articles: action.payload, isLoading: false };
+  }
+  if (action.type === 'FETCH_SUCCES') {
+    return { ...state, fetchSucces: !state.fetchSucces };
+  }
+  if (action.type === 'SAVE_LIKE_DATA') {
+    const newArticles = state.articles.map((item) =>
+      item.slug === action.payload.article.slug ? action.payload.article : item
+    );
+    return { ...state, articles: newArticles };
   }
 
   return state;
