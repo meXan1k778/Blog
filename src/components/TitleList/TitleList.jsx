@@ -1,37 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
+import { connect } from 'react-redux';
 import Title from '../Title/Title';
+import { getArticles } from '../../actions/actions';
 
 import 'antd/dist/antd.css';
 
-import StoreApi from '../../StoreTitles/Storeservice';
-
-const TitleList = () => {
-  const titlesApi = new StoreApi();
-
+const TitleList = ({ getArticles, articles, isLoading }) => {
   const [currentPage, setPage] = useState(1);
-  const [isLoaded, setLoader] = useState(false);
-
-  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    titlesApi
-      .getArticles()
-      .then((res) => setArticles(res.articles))
-      .then(() => setLoader(true));
+    getArticles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changePage = (e) => {
-    setLoader(false);
-    titlesApi
-      .getArticles(e)
-      .then((res) => setArticles(res.articles))
-      .then(() => setLoader(true));
+    getArticles(e);
     setPage(e);
   };
 
-  const elements = isLoaded ? articles.map((item) => <Title data={item} key={item.slug} />) : 'loading...';
+  const elements = !isLoading ? articles.map((item) => <Title data={item} key={item.slug} />) : 'loading...';
 
   return (
     <div>
@@ -49,4 +37,15 @@ const TitleList = () => {
   );
 };
 
-export default TitleList;
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articles,
+    isLoading: state.isLoading,
+  };
+};
+
+const mapDispatchToProps = {
+  getArticles,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TitleList);

@@ -5,11 +5,29 @@ import {
   FETCH_LOGIN,
   FETCH_COOKIE,
   FETCH_PROFILE,
+  FETCH_ARTICLE,
+  FETCH_ARTICLES_LIST,
+  FETCH_UPDATE_ARTICLE,
   changeRegStatus,
   putLogInData,
   putErrorData,
+  putArticles,
 } from '../actions/actions';
-import { fetchRegistration, fetchLogIn, fetchCookie, fetchEditProfile } from '../components/Api/api';
+import {
+  fetchRegistration,
+  fetchLogIn,
+  fetchCookie,
+  fetchEditProfile,
+  fetchNewArticle,
+  fetchArticlesList,
+  fetchUpdateArticle,
+} from '../components/Api/api';
+
+export function* workerFetchArticlesList(action) {
+  const data = yield call(fetchArticlesList, action.payload);
+
+  yield put(putArticles(data.articles));
+}
 
 export function* workerFetchReg(action) {
   const data = yield call(fetchRegistration, action.payload);
@@ -42,7 +60,7 @@ export function* workerFetchCookie() {
 export function* workerFetchProfile(action) {
   try {
     const data = yield call(fetchEditProfile, action.payload);
-    console.log(data);
+
     if (data.user) {
       yield put(putLogInData({ ...data.user }));
     } else yield put(putErrorData(data.errors));
@@ -51,9 +69,20 @@ export function* workerFetchProfile(action) {
   }
 }
 
+export function* workerFetchArticle(action) {
+  yield call(fetchNewArticle, action.payload);
+}
+
+export function* workerFetchUpdateArticle(action) {
+  yield call(fetchUpdateArticle, action.payload);
+}
+
 export function* whatchFetchReg() {
+  yield takeEvery(FETCH_ARTICLES_LIST, workerFetchArticlesList);
   yield takeEvery(FETCH_REGISTRATION, workerFetchReg);
   yield takeEvery(FETCH_LOGIN, workerFetchLogIn);
   yield takeEvery(FETCH_COOKIE, workerFetchCookie);
   yield takeEvery(FETCH_PROFILE, workerFetchProfile);
+  yield takeEvery(FETCH_ARTICLE, workerFetchArticle);
+  yield takeEvery(FETCH_UPDATE_ARTICLE, workerFetchUpdateArticle);
 }

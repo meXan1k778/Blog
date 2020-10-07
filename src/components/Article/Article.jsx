@@ -2,11 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import StoreApi from '../../StoreTitles/Storeservice';
+import './article.scss';
 
 const streApi = new StoreApi();
 
-const Article = ({ match }) => {
+const Article = ({ match, loggedUser }) => {
   const [data, setData] = useState({
     author: { username: '', image: '' },
     body: '',
@@ -20,6 +23,7 @@ const Article = ({ match }) => {
     body,
     tagList,
     isLoaded,
+    slug,
     updatedAt,
     author: { username, image },
   } = data;
@@ -37,20 +41,33 @@ const Article = ({ match }) => {
 
   const date = format(new Date(updatedAt), 'MMMM dd, yyyy');
 
+  const userBtn = username !== loggedUser.username || (
+    <>
+      <Link to={`/article/${slug}/edit`} className="content__btn content__btn-edit ">
+        Edit
+      </Link>
+      <button type="button" className="content__btn content__btn-remove">
+        Delete
+      </button>
+    </>
+  );
+
   return isLoaded ? (
-    <div className="content__block">
+    <div className="content__block article">
       <div className="content__description">
         <h3>{title}</h3>
         <div>{tags}</div>
         <p>{body}</p>
       </div>
-      <div className="content__owner">
-        <div>
-          <span className="content__name">{username}</span>
-          <span className="content__date">{date}</span>
+      <div className="content__bar">
+        <div className="content__owner">
+          <div>
+            <span className="content__name">{username}</span>
+            <span className="content__date">{date}</span>
+          </div>
+          <img src={image} alt="avatar" />
         </div>
-
-        <img src={image} alt="avatar" />
+        {userBtn}
       </div>
     </div>
   ) : (
@@ -58,4 +75,10 @@ const Article = ({ match }) => {
   );
 };
 
-export default Article;
+const mapStateToProps = (state) => {
+  return {
+    loggedUser: state.loggedUser,
+  };
+};
+
+export default connect(mapStateToProps, null)(Article);

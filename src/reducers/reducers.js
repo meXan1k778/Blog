@@ -1,7 +1,7 @@
 const initialState = {
   userRegistered: false,
   loggedUser: {},
-
+  articles: [],
   isLogged: false,
   isLoading: false,
   isLoginValid: false,
@@ -15,7 +15,14 @@ const Reducers = (state = initialState, action) => {
   if (action.type === 'FETCH_FINISHED') {
     return { ...state, userRegistered: !state.userRegistered, isLoading: false };
   }
-  if (action.type === 'FETCH_LOGIN' || action.type === 'FETCH_COOKIE' || action.type === 'FETCH_EDIT') {
+  if (
+    action.type === 'FETCH_LOGIN' ||
+    action.type === 'FETCH_COOKIE' ||
+    action.type === 'FETCH_EDIT' ||
+    action.type === 'FETCH_ARTICLE' ||
+    action.type === 'FETCH_ARTICLES_LIST' ||
+    action.type === 'FETCH_UPDATE_ARTICLE'
+  ) {
     return { ...state, isLoading: true };
   }
   if (action.type === 'FETCH_LOGIN_FINISHED') {
@@ -29,6 +36,9 @@ const Reducers = (state = initialState, action) => {
   }
   if (action.type === 'CHANGE_VALID_STATUS') {
     return { ...state, isLoginValid: false, error: {} };
+  }
+  if (action.type === 'REQUEST_SUCCES') {
+    return { ...state, articles: action.payload, isLoading: false };
   }
 
   return state;

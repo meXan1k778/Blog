@@ -10,6 +10,16 @@ const fetchRegistration = async (data) => {
   return request.json();
 };
 
+const fetchArticlesList = async (page = 1) => {
+  const res = await fetch(`https://conduit.productionready.io/api/articles?limit=5&offset=${page}`);
+
+  if (!res.ok) {
+    throw new Error(`Could not fetch!!! recived status: ${res.status}`);
+  }
+
+  return res.json();
+};
+
 const fetchLogIn = async (data) => {
   const request = await fetch(`https://conduit.productionready.io/api/users/login`, {
     method: 'POST',
@@ -45,4 +55,42 @@ const fetchEditProfile = async (data) => {
   return request.json();
 };
 
-export { fetchRegistration, fetchLogIn, fetchCookie, fetchEditProfile };
+const fetchNewArticle = async (data) => {
+  const request = await fetch(`https://conduit.productionready.io/api/articles`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Token ${document.cookie}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify({
+      article: { title: data.title, description: data.description, body: data.text, tagList: data.tagList },
+    }),
+  });
+
+  return request.json();
+};
+
+const fetchUpdateArticle = async (data) => {
+  const request = await fetch(`https://conduit.productionready.io/api/articles/${data.slug}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Token ${document.cookie}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify({
+      article: { title: data.title, description: data.description, body: data.text, tagList: data.tagList },
+    }),
+  });
+
+  return request.json();
+};
+
+export {
+  fetchRegistration,
+  fetchLogIn,
+  fetchCookie,
+  fetchEditProfile,
+  fetchNewArticle,
+  fetchArticlesList,
+  fetchUpdateArticle,
+};

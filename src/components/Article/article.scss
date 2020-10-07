@@ -1,0 +1,32 @@
+.article {
+  min-height: 550px;
+  margin-bottom: 40px;
+}
+
+.content__btn {
+  background-color: #ffffff;
+  outline: none;
+  padding: 5px 20px;
+  margin: 10px 15px 0 0;
+  border-radius: 5px;
+}
+
+.content__btn-edit {
+  border: 1px solid #52c41a;
+  color: #52c41a;
+  &:active {
+    border: 3px solid chartreuse;
+    opacity: 0.8;
+    padding: 3px 18px;
+  }
+}
+
+.content__btn-remove {
+  border: 1px solid #f5222d;
+  color: #f5222d;
+  &:active {
+    border: 3px solid #ff0015;
+    opacity: 0.8;
+    padding: 3px 18px;
+  }
+}
