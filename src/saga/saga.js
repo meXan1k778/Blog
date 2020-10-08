@@ -33,16 +33,24 @@ import {
 } from '../Api-service/Api-service';
 
 export function* workerFetchArticlesList(action) {
-  const data = yield call(fetchArticlesList, action.payload);
-  yield put(putArticles(data.articles));
+  try {
+    const data = yield call(fetchArticlesList, action.payload);
+    yield put(putArticles(data.articles));
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchReg(action) {
-  const data = yield call(fetchRegistration, action.payload);
+  try {
+    const data = yield call(fetchRegistration, action.payload);
 
-  if (data.user) {
-    yield put(changeRegStatus());
-  } else yield put(putErrorData(data.errors));
+    if (data.user) {
+      yield put(changeRegStatus());
+    } else yield put(putErrorData(data.errors));
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchLogIn(action) {
@@ -54,22 +62,29 @@ export function* workerFetchLogIn(action) {
       yield put(putLogInData({ ...data.user }));
     } else yield put(putErrorData());
   } catch (error) {
-    alert('Something went wrong, try again');
+    console.log(error.message);
   }
 }
 
 export function* workerFetchCookie() {
-  if (document.cookie.length !== 0) {
-    const { user } = yield fetchCookie(document.cookie);
-    yield put(putLogInData({ ...user }));
-  } else console.log('there is no cookie');
+  try {
+    if (document.cookie.length !== 0) {
+      const { user } = yield fetchCookie(document.cookie);
+      yield put(putLogInData({ ...user }));
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchFullArticle(action) {
-  console.log(action.payload, 'saga');
-  const data = yield call(fetchOpenArticle, action.payload);
-  console.log(data.article);
-  yield put(putFullArticle(data.article));
+  try {
+    const data = yield call(fetchOpenArticle, action.payload);
+
+    yield put(putFullArticle(data.article));
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchProfile(action) {
@@ -79,32 +94,55 @@ export function* workerFetchProfile(action) {
     if (data.user) {
       yield put(putLogInData({ ...data.user }));
       yield put(changeRegStatus());
+      yield put(changeRegStatus());
     } else yield put(putErrorData(data.errors));
   } catch (error) {
-    alert('Something went wrong, try again');
+    console.log(error.message);
   }
 }
 
 export function* workerFetchArticle(action) {
-  yield call(fetchNewArticle, action.payload);
+  try {
+    yield call(fetchNewArticle, action.payload);
+    yield put(changeRegStatus());
+    yield put(changeRegStatus());
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchUpdateArticle(action) {
-  yield call(fetchUpdateArticle, action.payload);
+  try {
+    yield call(fetchUpdateArticle, action.payload);
+    yield put(changeRegStatus());
+    yield put(changeRegStatus());
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchDeleteArticle(action) {
-  yield call(fetchDeleteArticle, action.payload);
+  try {
+    yield call(fetchDeleteArticle, action.payload);
+    yield put(changeRegStatus());
+    yield put(changeRegStatus());
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* workerFetchLike(action) {
-  const data = yield call(fetchLike, action.payload.slug);
+  try {
+    const data = yield call(fetchLike, action.payload.slug);
 
-  if (data.article.favoritesCount === action.payload.likeCount) {
-    const newData = yield call(fetchDislike, action.payload.slug);
+    if (data.article.favoritesCount === action.payload.likeCount) {
+      const newData = yield call(fetchDislike, action.payload.slug);
 
-    yield put(saveLikedData(newData));
-  } else yield put(saveLikedData(data));
+      yield put(saveLikedData(newData));
+    } else yield put(saveLikedData(data));
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function* whatchFetchReg() {

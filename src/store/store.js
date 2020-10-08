@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { whatchFetchReg } from '../saga/saga';
 
-import Reducers from '../reducers/reducers';
+import combineReducers from '../reducers/reducers';
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -12,6 +12,6 @@ const composeEnhancers =
       })
     : compose;
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(Reducers, composeEnhancers(applyMiddleware(sagaMiddleware)));
+const store = createStore(combineReducers, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(whatchFetchReg);
 export default store;

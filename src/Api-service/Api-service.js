@@ -10,7 +10,7 @@ const fetchRegistration = async (data) => {
   return request.json();
 };
 
-const fetchArticlesList = async (page = 1) => {
+const fetchArticlesList = async (page = 0) => {
   const res = await fetch(`https://conduit.productionready.io/api/articles?limit=5&offset=${page}`);
 
   if (!res.ok) {

@@ -119,12 +119,6 @@ const deleteArticle = (slug) => {
   };
 };
 
-const toggleFetch = () => {
-  return {
-    type: 'FETCH_SUCCES',
-  };
-};
-
 const toggleLike = (slug) => {
   return {
     type: LIKE,
@@ -155,7 +149,6 @@ export {
   createArticle,
   updateArticle,
   deleteArticle,
-  toggleFetch,
   toggleLike,
   saveLikedData,
   putFullArticle,

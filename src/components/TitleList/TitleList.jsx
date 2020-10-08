@@ -11,21 +11,22 @@ import { getArticles, toggleLike } from '../../actions/actions';
 
 import 'antd/dist/antd.css';
 
-const TitleList = ({ getArticles, articles, isLoading, toggleLike, loggedUser }) => {
+const TitleList = ({ getArticles, toggleLike, articles, Status: { isLoading }, loggedUser: { user } }) => {
   const [currentPage, setPage] = useState(1);
 
   useEffect(() => {
     getArticles();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changePage = (e) => {
-    getArticles(e);
+    getArticles(e - 1);
     setPage(e);
   };
 
   const likeIt = (slug) => {
-    if (!loggedUser.username) return;
+    if (!user.username) return;
     const likeCount = articles.filter((item) => (item.slug === slug ? item : null))[0].favoritesCount;
     toggleLike({ slug, likeCount });
   };
@@ -53,9 +54,13 @@ const TitleList = ({ getArticles, articles, isLoading, toggleLike, loggedUser })
 
 const mapStateToProps = (state) => {
   return {
+    Status: {
+      isLoading: state.Status.isLoading,
+    },
+    loggedUser: {
+      user: state.loggedUser.user,
+    },
     articles: state.articles,
-    isLoading: state.isLoading,
-    loggedUser: state.loggedUser,
   };
 };
 

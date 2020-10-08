@@ -9,7 +9,7 @@ import { sendRegForm, changeRegStatus } from '../../actions/actions';
 
 import './form.scss';
 
-const RegistrationForm = ({ sendRegForm, error, userRegistered, changeRegStatus }) => {
+const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, changeRegStatus, ErrorStats: { error } }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -89,8 +89,12 @@ const RegistrationForm = ({ sendRegForm, error, userRegistered, changeRegStatus 
 
 const mapStateToProps = (state) => {
   return {
-    error: state.error,
-    userRegistered: state.userRegistered,
+    Status: {
+      userRegistered: state.Status.userRegistered,
+    },
+    ErrorStats: {
+      error: state.ErrorStats.error,
+    },
   };
 };
 

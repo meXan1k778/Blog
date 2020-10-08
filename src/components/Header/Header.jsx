@@ -11,13 +11,13 @@ import { getDataFromCookie } from '../../actions/actions';
 
 import './header.scss';
 
-const Header = ({ loggedUser, isLogged, getDataFromCookie }) => {
+const Header = ({ getDataFromCookie, loggedUser: { user, isLogged } }) => {
   useEffect(() => {
     getDataFromCookie();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const element = isLogged ? <HeaderLogged data={loggedUser} /> : <HeaderUnlogged />;
+  const element = isLogged ? <HeaderLogged data={user} /> : <HeaderUnlogged />;
 
   return (
     <header className="header">
@@ -31,8 +31,10 @@ const Header = ({ loggedUser, isLogged, getDataFromCookie }) => {
 
 const mapStateToProps = (state) => {
   return {
-    loggedUser: state.loggedUser,
-    isLogged: state.isLogged,
+    loggedUser: {
+      user: state.loggedUser.user,
+      isLogged: state.loggedUser.isLogged,
+    },
   };
 };
 

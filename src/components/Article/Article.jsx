@@ -15,8 +15,14 @@ import { deleteArticle, getFullArticle } from '../../actions/actions';
 
 import './article.scss';
 
-const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArticle, isLoading }) => {
-  const [isDeleted, setDelete] = useState(false);
+const Article = ({
+  match,
+  deleteArticle,
+  getFullArticle,
+  currentArticle,
+  Status: { isLoading, userRegistered },
+  loggedUser: { user },
+}) => {
   const [statusModal, setModal] = useState(false);
 
   const {
@@ -40,7 +46,6 @@ const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArti
 
   const actionArticleDel = () => {
     deleteArticle(slug);
-    setDelete(true);
   };
 
   const toggleModal = (value) => {
@@ -49,7 +54,7 @@ const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArti
 
   const date = format(new Date(updatedAt), 'MMMM dd, yyyy');
 
-  const userBtn = username !== loggedUser.username || (
+  const userBtn = username !== user.username || (
     <>
       <Link to={`/article/${slug}/edit`} className="content__btn content__btn-edit ">
         Edit
@@ -62,7 +67,7 @@ const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArti
 
   const modal = !statusModal || <Modal toggleModal={toggleModal} actionArticle={actionArticleDel} />;
 
-  if (isDeleted) {
+  if (userRegistered) {
     return <Redirect to="/" />;
   }
 
@@ -75,9 +80,14 @@ const Article = ({ match, loggedUser, deleteArticle, getFullArticle, currentArti
 
 const mapStateToProps = (state) => {
   return {
-    loggedUser: state.loggedUser,
-    currentArticle: state.currentArticle,
-    isLoading: state.isLoading,
+    Status: {
+      isLoading: state.Status.isLoading,
+      userRegistered: state.Status.userRegistered,
+    },
+    loggedUser: {
+      user: state.loggedUser.user,
+    },
+    currentArticle: state.CurrentArticle,
   };
 };
 

@@ -9,7 +9,7 @@ import { sendLogInForm, setVallidStatus } from '../../actions/actions';
 
 import './form.scss';
 
-const LogInForm = ({ sendLogInForm, setVallidStatus, isLogged, isLoginValid }) => {
+const LogInForm = ({ sendLogInForm, setVallidStatus, ErrorStats: { isLoginValid }, loggedUser: { isLogged } }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -58,8 +58,12 @@ const LogInForm = ({ sendLogInForm, setVallidStatus, isLogged, isLoginValid }) =
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.isLogged,
-    isLoginValid: state.isLoginValid,
+    ErrorStats: {
+      isLoginValid: state.ErrorStats.isLoginValid,
+    },
+    loggedUser: {
+      isLogged: state.loggedUser.isLogged,
+    },
   };
 };
 

@@ -7,11 +7,11 @@ import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 
 import Todo from './Todo';
-import { createArticle, updateArticle } from '../../actions/actions';
+import { createArticle, updateArticle, changeRegStatus } from '../../actions/actions';
 
 import './new-article.scss';
 
-const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
+const NewArticle = ({ createArticle, updateArticle, Status: { userRegistered }, match, articles }) => {
   const currentArticle = articles.length !== 0 ? articles.filter((item) => item.slug === match.params.slug)[0] : [];
 
   const title = currentArticle ? currentArticle.title : null;
@@ -24,7 +24,6 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
   // eslint-disable-next-line no-use-before-define
   const currentTags = tagList ? tagList.map((item) => createItem(item)) : null;
 
-  const [isDone, setDone] = useState(false);
   const { register, handleSubmit, errors } = useForm();
   const [mainInput, setInput] = useState('');
   const [todo, setTodo] = useState(currentTags || []);
@@ -53,14 +52,15 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
 
   const onSubmit = (data) => {
     const tagList = todo.map((item) => Object.values(item)[0]);
+
     if (match.params.slug) {
       updateArticle({ ...data, tagList, slug: match.params.slug });
+    } else {
+      createArticle({ ...data, tagList });
     }
-    createArticle({ ...data, tagList });
-    return setDone(true);
   };
 
-  if (isDone) {
+  if (userRegistered) {
     return <Redirect to="/" />;
   }
 
@@ -125,12 +125,16 @@ const NewArticle = ({ createArticle, updateArticle, articles, match }) => {
 const mapStateToPops = (state) => {
   return {
     articles: state.articles,
+    Status: {
+      userRegistered: state.Status.userRegistered,
+    },
   };
 };
 
 const mapDispatchToProps = {
   createArticle,
   updateArticle,
+  changeRegStatus,
 };
 
 export default withRouter(connect(mapStateToPops, mapDispatchToProps)(NewArticle));
