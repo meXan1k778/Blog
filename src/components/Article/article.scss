@@ -86,3 +86,20 @@ button {
     background-color: #1890ff;
   }
 }
+
+.like {
+  img {
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+}
+.content__slug {
+  display: inline-block;
+}

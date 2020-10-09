@@ -44,7 +44,10 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  width: 140px;
+  min-width: 140px;
+  .content__data {
+    width: 100%;
+  }
   span {
     display: inline-block;
     width: 100px;
@@ -55,6 +58,10 @@
     color: rgba(0, 0, 0, 0.5);
   }
   .content__name {
+    text-align: end;
+    color: brown;
+    padding: 0;
+    margin: 0;
     font-size: 18px;
     font-weight: normal;
   }

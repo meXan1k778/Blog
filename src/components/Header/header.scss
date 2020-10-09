@@ -20,6 +20,7 @@
     color: black;
     background-color: #ffffff;
     padding: 10px;
+
     border: none;
     outline: none;
     &:hover {
@@ -38,6 +39,47 @@
 img {
   width: 40px;
   height: 40px;
-  margin: 0 7px;
+  margin: 0 15px;
   border-radius: 50%;
+}
+
+.header__button--out {
+  margin-left: 20px;
+  padding: 10px 20px;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  &:hover {
+    border: 1px solid red;
+    color: red;
+  }
+  &:active {
+    padding: 8px 18px;
+    border: 3px solid red;
+    opacity: 0.8;
+  }
+}
+
+.header__button--article {
+  padding: 5px 10px;
+  color: #52c41a;
+  border: 1px solid #52c41a;
+  border-radius: 3px;
+  margin-right: 10px;
+  &:hover {
+    border: 1px solid rgb(176, 11, 209);
+    color: rgb(176, 11, 209);
+  }
+  &:active {
+    padding: 4px 9px;
+    border: 2px solid rgb(176, 11, 209);
+  }
+}
+
+.header__button--username {
+  margin-left: 20px;
+  color: black;
+  &:hover {
+    color: black;
+  }
 }

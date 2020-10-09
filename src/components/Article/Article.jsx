@@ -11,7 +11,7 @@ import ArticleRender from './ArticleRender';
 import Modal from './Modal';
 import Spinner from '../Spinner/Spinner';
 
-import { deleteArticle, getFullArticle } from '../../actions/actions';
+import { deleteArticle, getFullArticle, toggleLike } from '../../actions/actions';
 
 import './article.scss';
 
@@ -20,6 +20,7 @@ const Article = ({
   deleteArticle,
   getFullArticle,
   currentArticle,
+  toggleLike,
   Status: { isLoading, userRegistered },
   loggedUser: { user },
 }) => {
@@ -34,7 +35,6 @@ const Article = ({
 
   useEffect(() => {
     getFullArticle(match.params.slug);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,6 +43,11 @@ const Article = ({
       {item}
     </span>
   ));
+
+  const likeIt = (slug) => {
+    const likeCount = currentArticle.favoritesCount;
+    toggleLike({ slug, likeCount });
+  };
 
   const actionArticleDel = () => {
     deleteArticle(slug);
@@ -72,7 +77,7 @@ const Article = ({
   }
 
   return !isLoading ? (
-    <ArticleRender data={currentArticle} calculatedData={[date, tags, userBtn, modal]} />
+    <ArticleRender data={currentArticle} calculatedData={[date, tags, userBtn, modal, likeIt]} />
   ) : (
     <Spinner />
   );
@@ -94,6 +99,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   deleteArticle,
   getFullArticle,
+  toggleLike
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

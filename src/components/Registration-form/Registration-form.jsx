@@ -5,11 +5,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { sendRegForm, changeRegStatus } from '../../actions/actions';
+import { sendRegForm } from '../../actions/actions';
 
 import './form.scss';
 
-const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, changeRegStatus, ErrorStats: { error } }) => {
+const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats: { error } }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -30,7 +30,6 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, changeRegSt
   const emailError = error.email ? <p>{`Email ${error.email}`}</p> : null;
 
   if (userRegistered) {
-    changeRegStatus();
     return <Redirect to="/" />;
   }
 
@@ -100,7 +99,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   sendRegForm,
-  changeRegStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

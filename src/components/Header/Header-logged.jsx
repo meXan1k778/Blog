@@ -10,14 +10,14 @@ const HeaderLogged = ({ data: { username, image }, logOutData }) => {
   const avatar = image || icon;
   return (
     <div>
-      <Link to="/new-article" className="header__button header__button--article">
+      <Link to="/new-article" className="header__button--article">
         Create article
       </Link>
-      <Link to="/profile">{username}</Link>
+      <Link to="/profile" className="header__button--username">{username}</Link>
       <Link to="/profile">
         <img src={avatar} alt="no pick" />
       </Link>
-      <Link to="/" className="header__button header__button--in" onClick={logOutData}>
+      <Link to="/" className="header__button--out" onClick={logOutData}>
         Log Out
       </Link>
     </div>

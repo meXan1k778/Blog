@@ -38,8 +38,8 @@ const Title = ({ data, likeIt }) => {
         <p>{body}</p>
       </div>
       <div className="content__owner">
-        <div>
-          <span className="content__name">{username}</span>
+        <div className="content__data">
+          <p className="content__name">{username}</p>
           <span className="content__date">{date}</span>
         </div>
 

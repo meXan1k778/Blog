@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { takeEvery, call, put } from 'redux-saga/effects';
 
 import {
@@ -46,6 +47,7 @@ export function* workerFetchReg(action) {
     const data = yield call(fetchRegistration, action.payload);
 
     if (data.user) {
+      yield put(changeRegStatus());
       yield put(changeRegStatus());
     } else yield put(putErrorData(data.errors));
   } catch (error) {
