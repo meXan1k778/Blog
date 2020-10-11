@@ -1,5 +1,8 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import icon from '../../img/Vector.png';
 
 const ArticleRender = ({
@@ -37,5 +40,23 @@ const ArticleRender = ({
     </div>
   );
 };
+
+
+ArticleRender.propTypes = {
+  data: PropTypes.object,
+  title: PropTypes.string,
+  body: PropTypes.string,
+  slug: PropTypes.string,
+  favoritesCount: PropTypes.number,
+  author: PropTypes.object,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  calculatedData: PropTypes.array,
+  date: PropTypes.string,
+  tags: PropTypes.array,
+  userBtn: PropTypes.object,
+  modal: PropTypes.object,
+  likeIt: PropTypes.func,
+}
 
 export default ArticleRender;

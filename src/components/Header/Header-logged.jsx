@@ -1,8 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { logOutData } from '../../actions/actions';
 import icon from '../../img/avatar.png';
 
@@ -23,6 +25,19 @@ const HeaderLogged = ({ data: { username, image }, logOutData }) => {
     </div>
   );
 };
+
+HeaderLogged.defaultProps ={
+  data: {},
+  username: '',
+  image: '',
+}
+
+HeaderLogged.propTypes = {
+  data: PropTypes.object,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  logOutData: PropTypes.func.isRequired
+}
 
 const mapDispatchToProps = {
   logOutData,

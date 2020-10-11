@@ -1,9 +1,11 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
 
+import PropTypes from 'prop-types';
 import Title from '../Title/Title';
 import Spinner from '../Spinner/Spinner';
 
@@ -51,6 +53,23 @@ const TitleList = ({ getArticles, toggleLike, articles, Status: { isLoading }, l
     </div>
   );
 };
+
+TitleList.defaultProps = {
+  isLoading: false,
+  user: '',
+}
+
+TitleList.propTypes = {
+  getArticles: PropTypes.func.isRequired,
+  toggleLike: PropTypes.func.isRequired,
+  articles: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool,
+  user: PropTypes.string,
+  Status: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object.isRequired,
+
+};
+
 
 const mapStateToProps = (state) => {
   return {

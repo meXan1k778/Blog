@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Modal = ({ toggleModal, actionArticle }) => {
   return (
@@ -16,5 +16,10 @@ const Modal = ({ toggleModal, actionArticle }) => {
     </div>
   );
 };
+
+Modal.propTypes ={
+  toggleModal: PropTypes.func.isRequired, 
+  actionArticle: PropTypes.func.isRequired,
+}
 
 export default Modal;

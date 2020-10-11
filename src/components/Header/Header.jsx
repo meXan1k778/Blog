@@ -1,8 +1,9 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import HeaderUnlogged from './Header-unlogged';
 import HeaderLogged from './Header-logged';
@@ -37,6 +38,19 @@ const mapStateToProps = (state) => {
     },
   };
 };
+
+Header.defaultProps ={
+  loggedUser: {},
+  user: {},
+  isLogged: false,
+}
+
+Header.propTypes = {
+  loggedUser: PropTypes.object,
+  user: PropTypes.object,
+  isLogged: PropTypes.bool,
+  getDataFromCookie: PropTypes.func.isRequired,
+}
 
 const mapDispatchToProps = {
   getDataFromCookie,

@@ -1,8 +1,10 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
+
 import React from 'react';
 
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import icon from '../../img/Vector.png';
 
 import './title.scss';
@@ -48,5 +50,26 @@ const Title = ({ data, likeIt }) => {
     </div>
   );
 };
+
+Title.defaultProps = {
+  title: '',
+  body: '',
+  tagList: [],
+  updatedAt: '',
+  slug: '',
+  favoritesCount: 0,
+  data: {},
+}
+
+Title.propTypes = {
+  title: PropTypes.string,
+  body: PropTypes.string,
+  tagList: PropTypes.array,
+  updatedAt: PropTypes.string,
+  slug: PropTypes.string,
+  favoritesCount: PropTypes.number,
+  data: PropTypes.object,
+  likeIt: PropTypes.func.isRequired,
+}
 
 export default Title;

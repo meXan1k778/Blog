@@ -1,10 +1,11 @@
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { sendLogInForm, setVallidStatus } from '../../actions/actions';
 
 import './form.scss';
@@ -49,12 +50,28 @@ const LogInForm = ({ sendLogInForm, setVallidStatus, ErrorStats: { isLoginValid 
           Login
         </button>
         <p className="form-text">
-          Don't have an account? <a href="./">Sign Up.</a>
+          Dont have an account? <Link to="/sign-up">Sign Up.</Link>
         </p>
       </div>
     </form>
   );
 };
+
+LogInForm.defaultProps = {
+  ErrorStats: {},
+  isLoginValid: false,
+  loggedUser: {},
+  isLogged: false,
+}
+
+LogInForm.propTypes = {
+  sendLogInForm: PropTypes.func.isRequired,
+  setVallidStatus: PropTypes.func.isRequired,
+  ErrorStats: PropTypes.object,
+  isLoginValid: PropTypes.bool,
+  loggedUser: PropTypes.object,
+  isLogged: PropTypes.bool,
+}
 
 const mapStateToProps = (state) => {
   return {

@@ -2,12 +2,20 @@
   box-sizing: border-box;
 }
 p {
-  margin-top: -14px;
   color: red;
   font-size: 12px;
 }
 
 .content__reg-form {
+  .regform-btn {
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #1890ff;
+    border: none;
+    margin: 8px auto;
+  }
   position: relative;
   height: 100%;
   margin: 50px auto 10px;
@@ -50,11 +58,6 @@ input[type='checkbox'] {
   width: 20px;
 }
 
-.regform-btn {
-  margin: 8px 0;
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px;
-  background-color: #1890ff;
-  border: none;
+.info-error {
+  margin-top: 0;
 }

@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
 import React from 'react';
 
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { sendRegForm } from '../../actions/actions';
 
 import './form.scss';
@@ -57,10 +58,10 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats:
           type="password"
           placeholder="Enter password"
           name="password"
-          ref={register({ required: true, minLength: 6, maxLength: 40, validate: text })}
+          ref={register({ required: true, minLength: 8, maxLength: 40, validate: text })}
         />
         {errors.password && errors.password.type === 'required' && <p>this is required</p>}
-        {errors.password && errors.password.type === 'minLength' && <p>minimal length 6 symbols</p>}
+        {errors.password && errors.password.type === 'minLength' && <p>minimal length 8 symbols</p>}
         <label htmlFor="repeat" className="line">
           Repeat password
         </label>
@@ -73,18 +74,34 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats:
         />
         {errors.repeat && errors.repeat.type === 'validate' && <p>passwords do not match</p>}
 
-        <input type="checkbox" name="repeatpsw" ref={register({ required: true })} />
-        <label htmlFor="password">I agree to the processing of my personal information</label>
+        <input type="checkbox" name="personalInfo" ref={register({ required: true })} />
+        <label  htmlFor="password">I agree to the processing of my personal information</label>
+        {errors.personalInfo && errors.personalInfo.type === 'required' && <p className="info-error">this is required</p>}
         <button className="regform-btn" type="submit">
           Create
         </button>
         <p className="form-text">
-          Already have an account? <a href="./">Sign In.</a>
+          Already have an account? <Link to="/sign-in">Sign In.</Link>
         </p>
       </div>
     </form>
   );
 };
+
+RegistrationForm.defaultProps = {
+  Status: {},
+  userRegistered: false,
+  ErrorStats: {},
+  error: {},
+}
+
+RegistrationForm.propTypes = {
+  sendRegForm: PropTypes.func.isRequired,
+  Status: PropTypes.object,
+  userRegistered: PropTypes.bool,
+  ErrorStats: PropTypes.object,
+  error: PropTypes.object,
+}
 
 const mapStateToProps = (state) => {
   return {

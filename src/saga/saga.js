@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, takeLatest, call, put } from 'redux-saga/effects';
 
 import {
   FETCH_REGISTRATION,
@@ -45,7 +45,6 @@ export function* workerFetchArticlesList(action) {
 export function* workerFetchReg(action) {
   try {
     const data = yield call(fetchRegistration, action.payload);
-
     if (data.user) {
       yield put(changeRegStatus());
       yield put(changeRegStatus());
@@ -157,5 +156,5 @@ export function* whatchFetchReg() {
   yield takeEvery(FETCH_ARTICLE, workerFetchArticle);
   yield takeEvery(FETCH_UPDATE_ARTICLE, workerFetchUpdateArticle);
   yield takeEvery(FETCH_DELETE_ARTICLE, workerFetchDeleteArticle);
-  yield takeEvery(LIKE, workerFetchLike);
+  yield takeLatest(LIKE, workerFetchLike);
 }

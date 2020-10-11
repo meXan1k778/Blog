@@ -1,11 +1,12 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from 'react';
 
 import { format } from 'date-fns';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ArticleRender from './ArticleRender';
 import Modal from './Modal';
@@ -45,6 +46,7 @@ const Article = ({
   ));
 
   const likeIt = (slug) => {
+    if (!user.username) return;
     const likeCount = currentArticle.favoritesCount;
     toggleLike({ slug, likeCount });
   };
@@ -82,6 +84,29 @@ const Article = ({
     <Spinner />
   );
 };
+
+Article.defaultProps = {
+  match: {},
+  Status: {},
+  isLoading: false,
+  userRegistered: {},
+  loggedUser: {},
+  user: {},
+  currentArticle: {},
+}
+
+Article.propTypes = {
+  match: PropTypes.object,
+  deleteArticle: PropTypes.func.isRequired,
+  getFullArticle: PropTypes.func.isRequired,
+  currentArticle: PropTypes.object,
+  toggleLike: PropTypes.func.isRequired,
+  Status: PropTypes.object,
+  isLoading: PropTypes.bool,
+  userRegistered: PropTypes.object,
+  loggedUser: PropTypes.object,
+  user: PropTypes.object,
+}
 
 const mapStateToProps = (state) => {
   return {

@@ -1,10 +1,12 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
+
 /* eslint-disable no-shadow */
 import React, { useState, useRef } from 'react';
 
 import { Redirect, withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Todo from './Todo';
 import { createArticle, updateArticle, changeRegStatus } from '../../actions/actions';
@@ -18,6 +20,7 @@ const NewArticle = ({ createArticle, updateArticle, Status: { userRegistered }, 
   const description = currentArticle ? currentArticle.description : null;
   const body = currentArticle ? currentArticle.body : null;
   const tagList = currentArticle ? currentArticle.tagList : [];
+  const localTitle = match.params.slug ? <h3>Edit article</h3> : <h3>Create new article</h3>
 
   const tagId = useRef(0);
 
@@ -67,7 +70,7 @@ const NewArticle = ({ createArticle, updateArticle, Status: { userRegistered }, 
   return (
     <form action="" method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div className="content__new-article">
-        <h3>Create new article</h3>
+        {localTitle}
 
         <label htmlFor="username">Title</label>
         <input
@@ -121,6 +124,22 @@ const NewArticle = ({ createArticle, updateArticle, Status: { userRegistered }, 
     </form>
   );
 };
+
+NewArticle.defaultProps = {
+  match: {},
+  articles: [],
+  Status: {},
+  userRegistered: false,
+}
+
+NewArticle.propTypes = {
+  createArticle: PropTypes.func.isRequired,
+  updateArticle: PropTypes.func.isRequired,
+  match: PropTypes.object,
+  articles: PropTypes.array,
+  Status: PropTypes.object,
+  userRegistered: PropTypes.bool,
+}
 
 const mapStateToPops = (state) => {
   return {

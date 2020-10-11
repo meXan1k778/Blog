@@ -1,9 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { editProfile, setVallidStatus } from '../../actions/actions';
 
 import './form.scss';
@@ -74,6 +75,22 @@ const Profile = ({ editProfile, setVallidStatus, Status: { userRegistered }, Err
     </form>
   );
 };
+
+Profile.defaultProps = {
+  Status: {},
+  userRegistered: false,
+  ErrorStats: {},
+  error: {},
+}
+
+Profile.propTypes = {
+  editProfile: PropTypes.func.isRequired,
+  setVallidStatus: PropTypes.func.isRequired,
+  Status: PropTypes.object,
+  userRegistered: PropTypes.bool,
+  ErrorStats: PropTypes.object,
+  error: PropTypes.object,
+}
 
 const mapStateToProps = (state) => {
   return {
