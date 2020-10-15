@@ -5,11 +5,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logOutData } from '../../actions/actions';
-import icon from '../../img/avatar.png';
+import { logOutData } from '../../actions/userActions';
+// import icon from '../../img/avatar.png';
 
 const HeaderLogged = ({ data: { username, image }, logOutData }) => {
-  const avatar = image || icon;
   return (
     <div>
       <Link to="/new-article" className="header__button--article">
@@ -17,7 +16,7 @@ const HeaderLogged = ({ data: { username, image }, logOutData }) => {
       </Link>
       <Link to="/profile" className="header__button--username">{username}</Link>
       <Link to="/profile">
-        <img src={avatar} alt="no pick" />
+        <img src={image} alt="no pick" />
       </Link>
       <Link to="/" className="header__button--out" onClick={logOutData}>
         Log Out

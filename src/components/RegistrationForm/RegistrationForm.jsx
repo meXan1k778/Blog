@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { sendRegForm } from '../../actions/actions';
+import { sendRegForm } from '../../actions/userActions';
 
 import './form.scss';
 
-const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats: { error } }) => {
+const RegistrationForm = ({ sendRegForm, status: { fetchSucces }, errorStats: { error } }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -30,7 +30,7 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats:
   const userError = error.username ? <p>{` Username ${error.username}`}</p> : null;
   const emailError = error.email ? <p>{`Email ${error.email}`}</p> : null;
 
-  if (userRegistered) {
+  if (fetchSucces) {
     return <Redirect to="/" />;
   }
 
@@ -74,8 +74,8 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats:
         />
         {errors.repeat && errors.repeat.type === 'validate' && <p>passwords do not match</p>}
 
-        <input type="checkbox" name="personalInfo" ref={register({ required: true })} />
-        <label  htmlFor="password">I agree to the processing of my personal information</label>
+        <input type="checkbox" id="info" name="personalInfo" ref={register({ required: true })} />
+        <label  htmlFor="info">I agree to the processing of my personal information</label>
         {errors.personalInfo && errors.personalInfo.type === 'required' && <p className="info-error">this is required</p>}
         <button className="regform-btn" type="submit">
           Create
@@ -89,27 +89,27 @@ const RegistrationForm = ({ sendRegForm, Status: { userRegistered }, ErrorStats:
 };
 
 RegistrationForm.defaultProps = {
-  Status: {},
-  userRegistered: false,
-  ErrorStats: {},
+  status: {},
+  fetchSucces: false,
+  errorStats: {},
   error: {},
 }
 
 RegistrationForm.propTypes = {
   sendRegForm: PropTypes.func.isRequired,
-  Status: PropTypes.object,
-  userRegistered: PropTypes.bool,
-  ErrorStats: PropTypes.object,
+  status: PropTypes.object,
+  fetchSucces: PropTypes.bool,
+  errorStats: PropTypes.object,
   error: PropTypes.object,
 }
 
 const mapStateToProps = (state) => {
   return {
-    Status: {
-      userRegistered: state.Status.userRegistered,
+    status: {
+      fetchSucces: state.status.fetchSucces,
     },
-    ErrorStats: {
-      error: state.ErrorStats.error,
+    errorStats: {
+      error: state.errorStats.error,
     },
   };
 };

@@ -6,11 +6,9 @@ import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { sendLogInForm, setVallidStatus } from '../../actions/actions';
+import { sendLogInForm, setVallidStatus } from '../../actions/userActions';
 
-import './form.scss';
-
-const LogInForm = ({ sendLogInForm, setVallidStatus, ErrorStats: { isLoginValid }, loggedUser: { isLogged } }) => {
+const LogInForm = ({ sendLogInForm, setVallidStatus, errorStats: { isLoginValid }, loggedUser: { isLogged } }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
@@ -58,7 +56,7 @@ const LogInForm = ({ sendLogInForm, setVallidStatus, ErrorStats: { isLoginValid 
 };
 
 LogInForm.defaultProps = {
-  ErrorStats: {},
+  errorStats: {},
   isLoginValid: false,
   loggedUser: {},
   isLogged: false,
@@ -67,7 +65,7 @@ LogInForm.defaultProps = {
 LogInForm.propTypes = {
   sendLogInForm: PropTypes.func.isRequired,
   setVallidStatus: PropTypes.func.isRequired,
-  ErrorStats: PropTypes.object,
+  errorStats: PropTypes.object,
   isLoginValid: PropTypes.bool,
   loggedUser: PropTypes.object,
   isLogged: PropTypes.bool,
@@ -75,8 +73,8 @@ LogInForm.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    ErrorStats: {
-      isLoginValid: state.ErrorStats.isLoginValid,
+    errorStats: {
+      isLoginValid: state.errorStats.isLoginValid,
     },
     loggedUser: {
       isLogged: state.loggedUser.isLogged,

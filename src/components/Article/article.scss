@@ -89,7 +89,6 @@ button {
 
 .like {
   img {
-    cursor: pointer;
     width: 15px;
     height: 15px;
     &:active {
@@ -102,4 +101,10 @@ button {
 }
 .content__slug {
   display: inline-block;
+}
+
+.inactive {
+  img {
+    cursor: default;
+  }
 }

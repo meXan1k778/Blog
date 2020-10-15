@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import TitleList from '../TitleList/TitleList';
-import Header from '../Header/Header';
-import Article from '../Article/Article';
+import ErrorBoundry from '../../containers/ErrorBoundry/ErrorBoundry'
+import TitleList from '../../containers/TitleList/TitleList';
+import Header from '../../containers/Header/Header';
+import ArticleMain from '../../containers/Article/ArticleMain';
 import store from '../../store/store';
-import RegistrationForm from '../Registration-form/Registration-form';
-import LogInForm from '../Registration-form/LogIn-form';
-import Profile from '../Profile/Profile';
-import NewArticle from '../New-article/New-article';
+import RegistrationForm from '../RegistrationForm/RegistrationForm';
+import LogInForm from '../LogInForm/LogInForm';
+import ProfileMain from '../../containers/ProfileMain/ProfileMain';
+import NewArticle from '../../containers/NewArticle/NewArticle';
 import PrivateRoute from '../../routes/PrivateRoute';
 
 import './app.scss';
@@ -19,16 +20,18 @@ const App = () => {
       <Provider store={store}>
         <Router>
           <Header />
-          <Switch>
-            <Route path="/" component={TitleList} exact />
-            <PrivateRoute path="/new-article" component={NewArticle} exact />
-            <Route path="/sign-in" component={LogInForm} exact />
-            <PrivateRoute path="/profile" component={Profile} exact />
-            <Route path="/sign-up" component={RegistrationForm} exact />
-            <Route path="/article/:slug" component={Article} exact />
-            <PrivateRoute path="/article/:slug/edit" component={NewArticle} />
-            <Redirect to="/" />
-          </Switch>
+          <ErrorBoundry>
+            <Switch>
+              <Route path="/" component={TitleList} exact />
+              <PrivateRoute path="/new-article" component={NewArticle} exact />
+              <Route path="/sign-in" component={LogInForm} exact />
+              <PrivateRoute path="/profile" component={ProfileMain} exact />
+              <Route path="/sign-up" component={RegistrationForm} exact />
+              <Route path="/article/:slug" component={ArticleMain} exact />
+              <PrivateRoute path="/article/:slug/edit" component={NewArticle} />
+              <Redirect to="/" />
+            </Switch>
+          </ErrorBoundry>
         </Router>
       </Provider>
     </>

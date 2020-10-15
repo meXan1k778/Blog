@@ -1,7 +1,6 @@
 import React from 'react';
 import './spinner.scss';
 
-// оставшиеся дивы хранят кольца спинера, источник https://loading.io/
 const Spinner = () => {
   return (
     <div className="loadingio-spinner-double-ring-ewcpq395ys">

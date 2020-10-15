@@ -1,130 +1,66 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/forbid-prop-types */
-/* eslint-disable no-shadow */
-
-import React, { useEffect, useState } from 'react';
-
-import { format } from 'date-fns';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import ArticleRender from './ArticleRender';
-import Modal from './Modal';
-import Spinner from '../Spinner/Spinner';
-
-import { deleteArticle, getFullArticle, toggleLike } from '../../actions/actions';
+import icon from '../../img/Vector.png';
 
 import './article.scss';
 
 const Article = ({
-  match,
-  deleteArticle,
-  getFullArticle,
-  currentArticle,
-  toggleLike,
-  Status: { isLoading, userRegistered },
-  loggedUser: { user },
-}) => {
-  const [statusModal, setModal] = useState(false);
-
-  const {
-    tagList,
+  data: {
+    title,
+    body,
     slug,
-    updatedAt,
-    author: { username },
-  } = currentArticle;
+    favoritesCount,
+    author: { username, image },
+  },
+  likeIt,
+  calculatedData: [date, tags, userBtn, modal, isActive],
+}) => {
 
-  useEffect(() => {
-    getFullArticle(match.params.slug);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const tags = tagList.map((item) => (
-    <span className="content__tag" key={item[0]}>
-      {item}
-    </span>
-  ));
-
-  const likeIt = (slug) => {
-    if (!user.username) return;
-    const likeCount = currentArticle.favoritesCount;
-    toggleLike({ slug, likeCount });
-  };
-
-  const actionArticleDel = () => {
-    deleteArticle(slug);
-  };
-
-  const toggleModal = (value) => {
-    setModal(value);
-  };
-
-  const date = format(new Date(updatedAt), 'MMMM dd, yyyy');
-
-  const userBtn = username !== user.username || (
-    <>
-      <Link to={`/article/${slug}/edit`} className="content__btn content__btn-edit ">
-        Edit
-      </Link>
-      <button onClick={() => toggleModal(true)} type="button" className="content__btn content__btn-remove">
-        Delete
-      </button>
-    </>
-  );
-
-  const modal = !statusModal || <Modal toggleModal={toggleModal} actionArticle={actionArticleDel} />;
-
-  if (userRegistered) {
-    return <Redirect to="/" />;
-  }
-
-  return !isLoading ? (
-    <ArticleRender data={currentArticle} calculatedData={[date, tags, userBtn, modal, likeIt]} />
-  ) : (
-    <Spinner />
+  return (
+    <div className="content__block article">
+      <div className="content__description">
+        <h3 className="content__slug">{title}</h3>
+        <button className={`like ${isActive}`} onClick={() => likeIt(slug)} type="button">
+          <img src={icon} alt="qwe" />
+          {favoritesCount}
+        </button>
+        <div>{tags}</div>
+        <p>{body}</p>
+      </div>
+      <div className="content__bar">
+        <div className="content__owner">
+          <div>
+            <p className="content__name">{username}</p>
+            <span className="content__date">{date}</span>
+          </div>
+          <img src={image} alt="avatar" />
+          {modal}
+        </div>
+        {userBtn}
+      </div>
+    </div>
   );
 };
 
-Article.defaultProps = {
-  match: {},
-  Status: {},
-  isLoading: false,
-  userRegistered: {},
-  loggedUser: {},
-  user: {},
-  currentArticle: {},
-}
 
 Article.propTypes = {
-  match: PropTypes.object,
-  deleteArticle: PropTypes.func.isRequired,
-  getFullArticle: PropTypes.func.isRequired,
-  currentArticle: PropTypes.object,
-  toggleLike: PropTypes.func.isRequired,
-  Status: PropTypes.object,
-  isLoading: PropTypes.bool,
-  userRegistered: PropTypes.object,
-  loggedUser: PropTypes.object,
-  user: PropTypes.object,
+  data: PropTypes.object,
+  title: PropTypes.string,
+  body: PropTypes.string,
+  slug: PropTypes.string,
+  favoritesCount: PropTypes.number,
+  author: PropTypes.object,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  calculatedData: PropTypes.array,
+  date: PropTypes.string,
+  tags: PropTypes.array,
+  userBtn: PropTypes.object,
+  modal: PropTypes.object,
+  likeIt: PropTypes.func,
 }
 
-const mapStateToProps = (state) => {
-  return {
-    Status: {
-      isLoading: state.Status.isLoading,
-      userRegistered: state.Status.userRegistered,
-    },
-    loggedUser: {
-      user: state.loggedUser.user,
-    },
-    currentArticle: state.CurrentArticle,
-  };
-};
-
-const mapDispatchToProps = {
-  deleteArticle,
-  getFullArticle,
-  toggleLike
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Article);
+export default Article;

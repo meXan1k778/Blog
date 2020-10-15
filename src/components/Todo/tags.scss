@@ -1,0 +1,16 @@
+.new-article__container {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.tags {
+  cursor: pointer;
+  display: inline-block;
+  margin: 5px 5px 5px 0;
+  padding: 5px;
+  line-height: 16px;
+  border-radius: 4px;
+  height: 30px;
+  width: 100%;
+  border: 1px solid rgba(27, 30, 216, 0.568);
+}

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import CurrentArticle from './CurrentArticle';
+import currentArticle from './currentArticle';
 import loggedUser from './loggedUser';
 import articles from './articles';
-import ErrorStats from './ErrorStats';
-import Status from './Status';
+import errorStats from './errorStats';
+import status from './status';
 
-export default combineReducers({ Status, CurrentArticle, loggedUser, articles, ErrorStats });
+export default combineReducers({ status, currentArticle, loggedUser, articles, errorStats });

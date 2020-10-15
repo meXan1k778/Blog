@@ -1,11 +1,11 @@
 const initialState = {
-  userRegistered: false,
+  fetchSucces: false,
   isLoading: false,
 };
 
 const Status = (state = initialState, action) => {
-  if (action.type === 'FETCH_FINISHED') {
-    return { ...state, userRegistered: !state.userRegistered, isLoading: false };
+  if (action.type === 'LOADER_ON' || action.type === 'LOADER_OFF') {
+    return { ...state, fetchSucces: !state.fetchSucces, isLoading: false };
   }
   if (
     action.type === 'FETCH_LOGIN' ||

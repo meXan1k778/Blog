@@ -6,10 +6,11 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import icon from '../../img/Vector.png';
+import cutText from '../../utils/utils'
 
 import './title.scss';
 
-const Title = ({ data, likeIt }) => {
+const Title = ({ data, likeIt, isActive }) => {
   const {
     title,
     body,
@@ -32,12 +33,12 @@ const Title = ({ data, likeIt }) => {
         <Link className="content__title" to={`/article/${slug}`}>
           {title}
         </Link>
-        <button className="like" type="button" onClick={() => likeIt(slug)}>
+        <button className={`like ${isActive}`} type="button" onClick={() => likeIt(slug)}>
           <img src={icon} alt="qwe" />
           {favoritesCount}
         </button>
         <div>{tags}</div>
-        <p>{body}</p>
+        <p>{cutText(body)}</p>
       </div>
       <div className="content__owner">
         <div className="content__data">
@@ -52,6 +53,7 @@ const Title = ({ data, likeIt }) => {
 };
 
 Title.defaultProps = {
+  isActive: '',
   title: '',
   body: '',
   tagList: [],
@@ -62,6 +64,7 @@ Title.defaultProps = {
 }
 
 Title.propTypes = {
+  isActive: PropTypes.string,
   title: PropTypes.string,
   body: PropTypes.string,
   tagList: PropTypes.array,

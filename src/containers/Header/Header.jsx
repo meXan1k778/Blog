@@ -5,12 +5,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import HeaderUnlogged from './Header-unlogged';
-import HeaderLogged from './Header-logged';
+import HeaderUnlogged from '../../components/HeaderUnlogged/HeaderUnlogged';
+import HeaderLogged from '../../components/HeaderLogged/HeaderLogged';
 
-import { getDataFromCookie } from '../../actions/actions';
-
-import './header.scss';
+import { getDataFromCookie } from '../../actions/userActions';
 
 const Header = ({ getDataFromCookie, loggedUser: { user, isLogged } }) => {
   useEffect(() => {

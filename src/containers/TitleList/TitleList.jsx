@@ -6,14 +6,14 @@ import { Pagination } from 'antd';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
-import Title from '../Title/Title';
-import Spinner from '../Spinner/Spinner';
+import Title from '../../components/Title/Title';
+import Spinner from '../../components/Spinner/Spinner';
 
-import { getArticles, toggleLike } from '../../actions/actions';
+import { getArticles, toggleLike } from '../../actions/articleActions';
 
 import 'antd/dist/antd.css';
 
-const TitleList = ({ getArticles, toggleLike, articles, Status: { isLoading }, loggedUser: { user } }) => {
+const TitleList = ({ getArticles, toggleLike, articles, status: { isLoading }, loggedUser: { user } }) => {
   const [currentPage, setPage] = useState(1);
 
   useEffect(() => {
@@ -33,8 +33,10 @@ const TitleList = ({ getArticles, toggleLike, articles, Status: { isLoading }, l
     toggleLike({ slug, likeCount });
   };
 
+  const isActive = !user.username ? 'inactive' : null
+
   const elements = !isLoading ? (
-    articles.map((item) => <Title data={item} key={item.slug} likeIt={likeIt} />)
+    articles.map((item) => <Title data={item} key={item.slug} likeIt={likeIt} isActive={isActive}/>)
   ) : (
     <Spinner />
   );
@@ -65,7 +67,7 @@ TitleList.propTypes = {
   articles: PropTypes.array.isRequired,
   isLoading: PropTypes.bool,
   user: PropTypes.string,
-  Status: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired,
   loggedUser: PropTypes.object.isRequired,
 
 };
@@ -73,8 +75,8 @@ TitleList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    Status: {
-      isLoading: state.Status.isLoading,
+    status: {
+      isLoading: state.status.isLoading,
     },
     loggedUser: {
       user: state.loggedUser.user,
