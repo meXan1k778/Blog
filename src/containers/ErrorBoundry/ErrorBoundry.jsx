@@ -16,7 +16,10 @@ export default class ErrorBoundry extends React.Component{
 
     render(){
         if(this.state.hasError) {
-            return <Alert />
+            return <Alert
+                message="Something happend, try reload page"
+                type="error"
+                closable />
         }
         return this.props.children
     }
